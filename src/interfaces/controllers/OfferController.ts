@@ -51,4 +51,18 @@ export class OfferController {
       res.status(500).json({ message: 'Failed to fetch active offers' });
     }
   }
+
+  async getOffersByType(req: Request, res: Response): Promise<void> {
+    try {
+      const { type } = req.params;
+      if (type !== 'Deals Hot' && type !== 'Mã Giảm Giá') {
+        res.status(400).json({ message: 'Loại deal không hợp lệ' });
+        return;
+      }
+      const offers = await this.offerService.getOffersByType(type);
+      res.json(offers);
+    } catch (error) {
+      res.status(500).json({ message: 'Không thể lấy danh sách offers theo loại' });
+    }
+  }
 } 

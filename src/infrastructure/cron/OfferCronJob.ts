@@ -9,7 +9,7 @@ export class OfferCronJob {
   constructor() {
     const offerRepository = new OfferRepository();
     this.offerService = new OfferService(offerRepository);
-    this.cronJob = cron.schedule('*/45 * * * *', this.syncOffers.bind(this));
+    this.cronJob = cron.schedule('*/1 * * * *', this.syncOffers.bind(this));
   }
 
   async start(): Promise<void> {

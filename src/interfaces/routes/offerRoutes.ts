@@ -74,4 +74,25 @@ router.get('/merchant/:merchant', offerController.getOffersByMerchant.bind(offer
  */
 router.get('/active', offerController.getActiveOffers.bind(offerController));
 
+/**
+ * @swagger
+ * /api/offers/type/{type}:
+ *   get:
+ *     summary: Lấy danh sách offers theo loại (Deals Hot hoặc Mã Giảm Giá)
+ *     tags: [Offers]
+ *     parameters:
+ *       - in: path
+ *         name: type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [Deals Hot, Mã Giảm Giá]
+ *     responses:
+ *       200:
+ *         description: Danh sách offers theo loại
+ *       500:
+ *         description: Lỗi server
+ */
+router.get('/type/:type', offerController.getOffersByType.bind(offerController));
+
 export default router; 

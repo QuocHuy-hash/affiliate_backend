@@ -1,0 +1,32 @@
+
+services:
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: affiliate_backend
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      DATABASE_NAME: affiliate_db
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: 12345678
+      NODE_ENV: development
+      PORT: 9000
+      DATABASE_HOST: money_manager_server-database-1
+      DATABASE_PORT: 5432
+      LOG_TO_FILE: "true"
+      LOG_LEVEL: "debug"
+      DEBUG: "express:*"
+    networks:
+      - app_network
+      - money_manager_server_default
+    volumes:
+      - ./logs:/app/logs
+
+networks:
+  app_network:
+    external: true
+  money_manager_server_default:
+    external: true 

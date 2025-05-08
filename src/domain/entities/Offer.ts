@@ -75,6 +75,9 @@ export class Offer {
   @Column('jsonb')
   banners!: any[];
 
+  @Column({ default: 'coupons' })
+  loai_deal!: string;
+
   constructor(data?: Partial<Offer>) {
     if (data) {
       Object.assign(this, data);

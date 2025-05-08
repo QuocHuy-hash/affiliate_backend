@@ -56,6 +56,11 @@ const options = {
                 type: 'object',
               },
             },
+            loai_deal: { 
+              type: 'string',
+              enum: ['Deals Hot', 'Mã Giảm Giá'],
+              description: 'Loại của deal dựa trên giá trị giảm giá, đơn hàng tối thiểu và ngày hết hạn'
+            }
           },
         },
       },
