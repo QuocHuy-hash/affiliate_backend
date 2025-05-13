@@ -98,4 +98,38 @@ export class OfferService {
     const offers = await this.offerRepository.getOffers();
     return offers.filter(offer => offer.loai_deal === loaiDeal);
   }
+
+  /**
+   * Xóa các mã giảm giá đã hết hạn
+   * Phương thức này sẽ được gọi tự động mỗi ngày thông qua cron job
+   */
+  async removeExpiredOffers(): Promise<void> {
+    try {
+      console.log('Bắt đầu xóa các mã giảm giá đã hết hạn...');
+      const allOffers = await this.offerRepository.getOffers();
+      const now = new Date();
+      const expiredOfferIds: string[] = [];
+
+      // Tìm các offers đã hết hạn
+      for (const offer of allOffers) {
+        const endTime = new Date(offer.end_time);
+        if (endTime < now) {
+          expiredOfferIds.push(offer.id);
+        }
+      }
+
+      // Xóa các offers đã hết hạn
+      if (expiredOfferIds.length > 0) {
+        for (const id of expiredOfferIds) {
+          await this.offerRepository.delete(id);
+        }
+        console.log(`Đã xóa ${expiredOfferIds.length} mã giảm giá đã hết hạn`);
+      } else {
+        console.log('Không có mã giảm giá nào đã hết hạn cần xóa');
+      }
+    } catch (error) {
+      console.error('Lỗi khi xóa mã giảm giá đã hết hạn:', error);
+      throw error;
+    }
+  }
 } 
